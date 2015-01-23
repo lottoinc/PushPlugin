@@ -24,11 +24,13 @@ public class PushPlugin extends CordovaPlugin {
 
 	public static final String REGISTER = "register";
 	public static final String UNREGISTER = "unregister";
+	public static final String MESSAGE = "message";
 	public static final String EXIT = "exit";
 
 	private static CordovaWebView gWebView;
 	private static String gECB;
 	private static String gSenderID;
+	private static String messageKey;
 	private static Bundle gCachedExtras = null;
     private static boolean gForeground = false;
 
@@ -59,6 +61,10 @@ public class PushPlugin extends CordovaPlugin {
 
 				gECB = (String) jo.get("ecb");
 				gSenderID = (String) jo.get("senderID");
+				messageKey = jo.optString("messageKey");
+				if (messageKey == "") {
+					messageKey = MESSAGE;
+				}
 
 				Log.v(TAG, "execute: ECB=" + gECB + " senderID=" + gSenderID);
 
@@ -236,6 +242,11 @@ public class PushPlugin extends CordovaPlugin {
     public static boolean isInForeground()
     {
       return gForeground;
+    }
+
+    public static String getMessageKey()
+    {
+      return messageKey;
     }
 
     public static boolean isActive()

@@ -71,8 +71,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 			else {
 				extras.putBoolean("foreground", false);
 
+                String messageKey = PushPlugin.getMessageKey();
                 // Send a notification if there is a message
-                if (extras.getString("message") != null && extras.getString("message").length() != 0) {
+                if (extras.getString(messageKey) != null && extras.getString(messageKey).length() != 0) {
                     createNotification(context, extras);
                 }
             }
@@ -108,7 +109,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 				.setContentIntent(contentIntent)
 				.setAutoCancel(true);
 
-		String message = extras.getString("message");
+		String messageKey = PushPlugin.getMessageKey();
+		String message = extras.getString(messageKey);
 		if (message != null) {
 			mBuilder.setContentText(message);
 		} else {
